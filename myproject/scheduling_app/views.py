@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Event, EventDate, UserProfile
+from .models import Event, EventDate, UserProfile, EventParticipant
 from .forms import EventForm, UserProfileForm
 
 @login_required
@@ -86,17 +86,23 @@ def participant(request):
         return render(request, 'participant.html')
 
 @login_required
-def edit_event(request):
-    if not request.session.get("first_access"):
-        return redirect("home")
-    return render(request, 'edit_event.html')
-
-@login_required
 def published_event(request, event_code):
     if not request.session.get("first_access"):
         request.session["first_access"] = True
 
     event = get_object_or_404(Event, event_code=event_code)
-
     event_dates = event.event_dates.all()
-    return render(request, 'published_event.html', {'event': event, 'event_dates': event_dates})
+    participant, created = EventParticipant.objects.get_or_create(user=request.user, event=event)
+
+    if request.method == 'POST':
+        availability_dates = request.POST.getlist('availability')
+        participant.available_dates.set(availability_dates)
+        participant.save()
+
+    context = {
+        'event': event,
+        'event_dates': event_dates,
+        'participant': participant, 
+    }
+
+    return render(request, 'published_event.html', context)

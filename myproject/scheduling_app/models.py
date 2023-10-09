@@ -29,3 +29,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
     
+class EventParticipant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    available_dates = models.ManyToManyField(EventDate, related_name='participants')

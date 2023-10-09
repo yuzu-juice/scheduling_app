@@ -13,6 +13,5 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('organizer/', views.organizer, name='organizer'),
     path('participant/', views.participant, name='participant'),
-    path('edit_event/', views.edit_event, name='edit_event'),
     path('<str:event_code>/', views.published_event, name='published_event'),
 ]
