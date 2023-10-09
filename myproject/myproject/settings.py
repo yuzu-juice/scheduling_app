@@ -119,5 +119,5 @@ LOGOUT_REDIRECT_URL = '/login/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR / "scheduling_app", "static"),
 )

@@ -10,10 +10,8 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
 
-    <!-- FullCalendar CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.css">
-    <!-- FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.js"></script>
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
     {% load static %}
     <!-- organizer.js -->
@@ -28,19 +26,27 @@
 
     <form method="post">
         {% csrf_token %}
-        <input type="hidden" name="event_date" id="event-date">
         <div class="form-group">
             <label for="id_event_name">Event Name:</label>
             {{ form.event_name }}
         </div>
         <div class="form-group">
-            <label for="id_event_date">Event Date:</label>
+            <label for="id_event_dates">Event Date:</label>
             <div id="calendar"></div>
         </div>
         <div class="form-group">
-            <label for="id_event_time">Event Time:</label>
-            {{ form.event_time }}
+            <label for="id_event_comment">Comment:</label>
+            {{ form.event_comment }}
         </div>
+        <input type="hidden" name="event_dates" id="event-dates">
+        {% if form.event_dates.errors %}
+            <ul class="errorlist">
+                {% for error in form.event_dates.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         <button type="submit">Submit</button>
     </form>
 

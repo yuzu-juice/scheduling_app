@@ -6,17 +6,14 @@
 <body>
     <h1>Welcome to the Home Page</h1>
 
-    <!-- ユーザー名とdisplay_nameの表示 -->
     <p>Username: {{ request.user }}</p>
     <p>Display Name: {{ request.user.userprofile.display_name }}</p>
 
-    <!-- ログアウトフォーム -->
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <input type="submit" value="Logout">
     </form>
 
-    <!-- ボタンを追加 -->
     <p>Go to:</p>
     <ul>
         <li><a href="{% url 'settings' %}">Settings</a></li>

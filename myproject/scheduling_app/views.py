@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Event, UserProfile
+from .models import Event, EventDate, UserProfile
 from .forms import EventForm, UserProfileForm
 
 @login_required
@@ -16,7 +16,7 @@ def home(request):
         return redirect('settings')
 
     # 自分が主催のイベントをデータベースから取得
-    events = Event.objects.filter(organizer=request.user)
+    events = Event.objects.filter(event_organizer=request.user)
 
     return render(request, 'home.html', {'events': events})
 
@@ -47,8 +47,23 @@ def organizer(request):
         if form.is_valid():
             # フォームから提供されたデータを使用してイベントを作成
             event = form.save(commit=False)
-            event.organizer = request.user  # ログインユーザーを主催者として設定
+            event.event_organizer = request.user  # ログインユーザーを主催者として設定
+
+            # イベントを一時保存し、IDを取得
             event.save()
+
+            # カンマ区切りの日付文字列をリストに分割して処理
+            event_date_str = request.POST.get('event_dates', '')  # カンマ区切りの日付文字列を取得
+            event_date_list = event_date_str.split(',')  # カンマで分割してリストにする
+
+            # 分割した日付をEventDateモデルに追加
+            for date_str in event_date_list:
+                date = EventDate(date=date_str.strip())  # スペースを削除して日付を作成
+                date.save()
+                event.event_dates.add(date)
+
+            event.save()
+            
             return redirect('published_event', event_code=event.event_code)
     else:
         form = EventForm()
@@ -83,4 +98,6 @@ def published_event(request, event_code):
         request.session["first_access"] = True
 
     event = get_object_or_404(Event, event_code=event_code)
-    return render(request, 'published_event.html', {'event': event})
+
+    event_dates = event.event_dates.all()
+    return render(request, 'published_event.html', {'event': event, 'event_dates': event_dates})

@@ -3,15 +3,18 @@ from django.db import models
 import random
 import string
 
+class EventDate(models.Model):
+    date = models.DateField()
+
 class Event(models.Model):
     event_name = models.CharField(max_length=255)
-    event_date = models.DateField()
-    event_time = models.TimeField()
+    event_dates = models.ManyToManyField('EventDate', related_name='events')
     event_code = models.CharField(max_length=32, unique=True)
-    organizer = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    event_organizer = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    event_comment = models.TextField(max_length=65535, blank=True, null=True)
 
     def generate_event_code(self):
-        # ランダムな8桁のアルファベット大文字、小文字、数字の組み合わせを生成
+        # ランダムな32桁のアルファベット大文字、小文字、数字の組み合わせを生成
         return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
 
     def save(self, *args, **kwargs):
