@@ -38,7 +38,7 @@
             <label for="id_event_comment">Comment:</label>
             {{ form.event_comment }}
         </div>
-        <input type="hidden" name="event_dates" id="event-dates">
+        <input type="hidden" name="event_dates" id="event-dates" class="event-dates">
         {% if form.event_dates.errors %}
             <ul class="errorlist">
                 {% for error in form.event_dates.errors %}

@@ -53,8 +53,7 @@ def organizer(request):
             event.save()
 
             # カンマ区切りの日付文字列をリストに分割して処理
-            event_date_str = request.POST.get('event_dates', '')  # カンマ区切りの日付文字列を取得
-            event_date_list = event_date_str.split(',')  # カンマで分割してリストにする
+            event_date_list = request.POST.get('event_dates', '').split(',')  # カンマ区切りの日付文字列を分割してリストにする
 
             # 分割した日付をEventDateモデルに追加
             for date_str in event_date_list:
