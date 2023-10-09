@@ -8,6 +8,12 @@ from .forms import EventForm, UserProfileForm
 def home(request):
     if not request.session.get("first_access"):
         request.session["first_access"] = True
+    
+    try:
+        if request.user.userprofile.display_name == None:
+            return redirect('settings')
+    except:
+        return redirect('settings')
 
     # 自分が主催のイベントをデータベースから取得
     events = Event.objects.filter(organizer=request.user)
@@ -28,7 +34,6 @@ def settings(request):
         messages.success(request, 'Settings saved successfully. Your display_name is ' + request.POST.get('display_name'))
     else:
         form = UserProfileForm(instance=user_profile)
-    
 
     return render(request, 'settings.html', {'form': form})
     
@@ -42,7 +47,6 @@ def organizer(request):
         if form.is_valid():
             # フォームから提供されたデータを使用してイベントを作成
             event = form.save(commit=False)
-            print('testetejfp')
             event.organizer = request.user  # ログインユーザーを主催者として設定
             event.save()
             return redirect('published_event', event_code=event.event_code)

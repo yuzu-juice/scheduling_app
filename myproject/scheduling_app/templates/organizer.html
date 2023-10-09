@@ -16,7 +16,18 @@
     <p>Organizer: {{ request.user.userprofile.display_name }}</p>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="form-group">
+            <label for="id_event_name">Event Name:</label>
+            {{ form.event_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_event_date">Event Date:</label>
+            {{ form.event_date }}
+        </div>
+        <div class="form-group">
+            <label for="id_event_time">Event Time:</label>
+            {{ form.event_time }}    
+        </div>
         <button type="submit">Submit</button>
     </form>
 
