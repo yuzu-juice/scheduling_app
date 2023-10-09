@@ -1,0 +1,8 @@
+#calendar {
+    width: 300px; /* カレンダー要素の幅を設定 */
+    height: 600px; /* カレンダー要素の高さを設定 */
+}
+
+.fc-header-toolbar {
+font-size: 10px; /* 年月表示の文字サイズを調整 */
+}
