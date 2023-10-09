@@ -11,12 +11,26 @@
     <p>Event Code: {{ event.event_code }}</p>
 
     <h2>Candidate Dates:</h2>
-    <ul>
-        {% for date in event_dates %}
-            <li>{{ date.date }}</li>
-        {% endfor %}
-    </ul>
-
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Your Availability</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date in event_dates|dictsort:"date" %}
+                <tr>
+                    <td>{{ date.date|date:"Y/m/d" }}</td>
+                    <td>
+                        <input type="checkbox" name="availability" value="{{ date.id }}"
+                            {% if date in request.user.userprofile.available_dates.all %}checked{% endif %}>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit">Submit</button>
     <p><a href="{% url 'home' %}">Go to Home</a></p>
 </body>
 </html>
