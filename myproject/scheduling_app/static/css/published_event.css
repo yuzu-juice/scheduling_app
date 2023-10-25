@@ -1,0 +1,9 @@
+table.available_dates_and_participants {
+    border-collapse: collapse;
+    width: 100%;
+}
+table.available_dates_and_participants th, table.available_dates_and_participants td {
+    border: 1px solid #000; /* セルの罫線スタイルと色を指定 */
+    padding: 8px;
+    text-align: center;
+}
