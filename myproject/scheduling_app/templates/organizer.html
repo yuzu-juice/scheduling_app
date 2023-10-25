@@ -19,37 +19,48 @@
     <!-- organizer.css -->
     <link rel="stylesheet" href="{% static 'css/organizer.css' %}">
 
+    <!-- bootstrap --> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
 </head>
-<body>
-    <h1>Create Event</h1>
-    <p>Organizer: {{ request.user.userprofile.display_name }}</p>
-
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="id_event_name">Event Name:</label>
-            {{ form.event_name }}
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="text-center">Create Event</h1>
+                        <p>Organizer: {{ request.user.userprofile.display_name }}</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_event_name">Event Name:</label>
+                                {{ form.event_name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_event_dates">Event Date:</label>
+                                <div id="calendar"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_event_comment">Comment:</label><br>
+                                {{ form.event_comment }}
+                            </div>
+                            <input type="hidden" name="event_dates" id="event-dates" class="event-dates">
+                            {% if form.event_dates.errors %}
+                                <ul class="errorlist">
+                                    {% for error in form.event_dates.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </form>
+                        <p class="mt-3 text-center"><a href="{% url 'home' %}" class="btn btn-secondary">Go to Home</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="id_event_dates">Event Date:</label>
-            <div id="calendar"></div>
-        </div>
-        <div class="form-group">
-            <label for="id_event_comment">Comment:</label>
-            {{ form.event_comment }}
-        </div>
-        <input type="hidden" name="event_dates" id="event-dates" class="event-dates">
-        {% if form.event_dates.errors %}
-            <ul class="errorlist">
-                {% for error in form.event_dates.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <p><a href="{% url 'home' %}">Go to Home</a></p>
+    </div>
 </body>
 </html>
