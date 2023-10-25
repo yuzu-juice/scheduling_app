@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-l0j3b*w!gam*+t_$8joxa_=z^6(irs1_*x3qi9(g5s&on_fe_+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['schedulingapp-yqf1ji3q.azurewebsites.net']
 
 
 # Application definition
@@ -121,3 +121,5 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR / "scheduling_app", "static"),
 )
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

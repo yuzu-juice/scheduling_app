@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/3ebf3c90-332f-4fa7-8e23-651066f52b8d/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/scheduling-app-kitagawa-167320497",
+    "appService.deploySubpath": "."
+}
